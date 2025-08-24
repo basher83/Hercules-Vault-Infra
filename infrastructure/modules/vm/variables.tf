@@ -25,6 +25,11 @@ variable "template_id" {
   type        = number
 }
 
+variable "template_node" {
+  description = "Source node where the template VM exists (e.g., 'lloyd')"
+  type        = string
+}
+
 variable "vcpu" {
   description = "Number of vCPUs"
   type        = number

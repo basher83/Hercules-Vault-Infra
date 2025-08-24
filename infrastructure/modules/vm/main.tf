@@ -21,8 +21,9 @@ resource "proxmox_virtual_environment_vm" "vm" {
   }
 
   clone {
-    vm_id = var.template_id
-    full  = true
+    vm_id     = var.template_id
+    node_name = var.template_node  # Source node where template exists
+    full      = true
   }
 
   disk {
