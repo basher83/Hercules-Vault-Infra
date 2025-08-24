@@ -71,3 +71,9 @@ variable "proxmox_ssh_username" {
   type        = string
   default     = "root"
 }
+
+variable "dns_servers" {
+  description = "List of DNS servers for vault VMs"
+  type        = list(string)
+  default     = ["8.8.8.8", "8.8.4.4"]
+}

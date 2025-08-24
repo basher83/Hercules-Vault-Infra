@@ -1,6 +1,39 @@
-# Infrastructure Configuration
+# Infrastructure Configuration 💫
 
-This directory contains all Terraform-related code for provisioning and managing the homelab infrastructure.
+**Self-Provisioning Infrastructure with Cloud-Init Automation**
+
+This directory contains all Terraform-related code for provisioning and managing the homelab infrastructure. The infrastructure features complete automation with cloud-init, including automatic software installation, configuration, and service setup.
+
+## 🚀 Automation Features
+
+### Enhanced Cloud-Init Integration
+
+Our infrastructure leverages advanced cloud-init configurations to provide:
+
+✅ **Complete Software Installation** - Vault, dependencies, repositories  
+✅ **DNS Configuration** - Reliable internet connectivity (8.8.8.8, 8.8.4.4)  
+✅ **QEMU Guest Agent** - Seamless Terraform lifecycle management  
+✅ **Service Configuration** - Systemd services configured and enabled  
+✅ **Security Hardening** - Proper permissions and user accounts  
+✅ **Multi-Node Distribution** - Vendor-data snippets deployed across cluster  
+
+### What Gets Deployed Automatically
+
+When you run `terraform apply` on any environment, VMs are fully configured with:
+
+- 🔐 **HashiCorp Vault** (v1.20.2+) - Installed from official repository
+- ⚙️ **Configuration Files** - Ready-to-use Vault configurations
+- 💾 **Storage Setup** - Data and logs directories with proper permissions
+- 🔧 **System Services** - Vault service configured but not started (requires initialization)
+- 🌐 **Network Configuration** - DNS and connectivity properly configured
+- 📚 **Documentation** - Auto-generated guides and helper scripts
+
+### Technical Implementation
+
+- **User Data**: Terraform manages SSH keys, network configuration, user accounts
+- **Vendor Data**: Enhanced cloud-init snippets handle software installation
+- **DNS Integration**: Terraform configures reliable DNS servers
+- **Multi-Node Support**: Cloud-init snippets distributed to all Proxmox nodes
 
 ## Directory Structure
 

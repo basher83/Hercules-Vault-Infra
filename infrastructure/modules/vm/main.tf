@@ -66,6 +66,8 @@ resource "proxmox_virtual_environment_vm" "vm" {
   initialization {
     interface = "ide2"
     type      = "nocloud"
+    
+    vendor_data_file_id = "local:snippets/vendor-data.yaml"
 
     user_account {
       username = var.cloud_init_username
@@ -77,6 +79,10 @@ resource "proxmox_virtual_environment_vm" "vm" {
         address = var.vm_ip_primary
         gateway = var.vm_gateway
       }
+    }
+
+    dns {
+      servers = var.dns_servers
     }
 
     dynamic "ip_config" {

@@ -1,6 +1,50 @@
-# Vault Production Environment
+# Vault Production Environment 🔐
 
-This directory contains the Terraform configuration for deploying the production Vault cluster to Proxmox.
+**Fully Automated Vault Infrastructure with Cloud-Init Magic!**
+
+This directory contains the Terraform configuration for deploying a production-ready Vault cluster to Proxmox with **complete automation**. The infrastructure is 100% self-provisioning, including automatic Vault installation, configuration, and service setup.
+
+## 🚀 Automation Features
+
+### What Gets Automatically Installed
+
+When you run `terraform apply`, each VM automatically gets:
+
+✅ **System Updates** - Latest security patches  
+✅ **QEMU Guest Agent** - For proper Terraform destroy operations  
+✅ **DNS Configuration** - Reliable internet connectivity (8.8.8.8, 8.8.4.4)  
+✅ **HashiCorp Repository** - Official APT repository added  
+✅ **Vault Binary** - Latest Vault from HashiCorp (currently v1.20.2)  
+✅ **Vault Configuration** - Pre-configured `/etc/vault.d/vault.hcl`  
+✅ **Vault Directories** - Data and logs directories with proper permissions  
+✅ **Systemd Service** - Vault service configured and enabled  
+✅ **Environment Variables** - Vault CLI environment setup  
+✅ **Helper Scripts** - Documentation and cluster initialization helpers  
+
+### The Magic Behind the Scenes
+
+Our enhanced cloud-init configuration (`vendor-data.yaml`) automatically:
+
+1. **Installs Dependencies**: curl, unzip, jq, ca-certificates, gnupg, lsb-release
+2. **Adds HashiCorp Repository**: Official GPG key and APT repository
+3. **Installs Vault**: Latest version from HashiCorp repository
+4. **Creates Vault User**: System user with proper home directory
+5. **Sets Up Directories**: `/etc/vault.d/`, `/opt/vault/data/`, `/opt/vault/logs/`
+6. **Configures Service**: Systemd service with security hardening
+7. **Sets Permissions**: Proper file ownership and security settings
+8. **Enables QEMU Agent**: For seamless Terraform lifecycle management
+9. **Reboots System**: Clean startup with all services enabled
+
+### Ready-to-Use Features
+
+After deployment, each VM has:
+- 📍 **Vault Binary**: `/usr/bin/vault`
+- ⚙️ **Configuration**: `/etc/vault.d/vault.hcl`
+- 💾 **Data Storage**: `/opt/vault/data/`
+- 📝 **Logging**: `/opt/vault/logs/`
+- 🔧 **Service Management**: `systemctl start vault`
+- 🌐 **Environment**: `VAULT_ADDR` pre-configured
+- 📚 **Documentation**: `/opt/vault/README.md`
 
 ## Architecture
 
@@ -44,27 +88,68 @@ vm_datastore        = "local-lvm"    # Storage location
 vm_bridge_1         = "vmbr0"        # Network bridge
 ```
 
-## Deployment
+## 🚀 Quick Start Guide
 
-### Via Scalr (Recommended)
+### Option 1: Via Scalr (Recommended)
 
-1. Push changes to your VCS repository
-2. Scalr will automatically trigger a plan
-3. Review the plan in Scalr UI
-4. Apply the changes through Scalr
+1. **Configure Variables**: Set required variables in Scalr workspace:
+   - `pve_api_url`: Your Proxmox API endpoint
+   - `pve_api_token`: API token with VM privileges
+   - `ci_ssh_key`: Your SSH public key
 
-### Manual Deployment (Development Only)
+2. **Deploy**: Push changes to VCS → Scalr auto-triggers → Review plan → Apply
+
+3. **Wait**: ~3-5 minutes for complete deployment (cloud-init takes time!)
+
+4. **Verify**: SSH to any VM and check: `vault version`
+
+### Option 2: Local Development
 
 ```bash
-# Initialize Terraform with Scalr backend
+# 1. Set up local variables
+cp terraform.tfvars.example terraform.tfvars.local
+vim terraform.tfvars.local  # Add your actual values
+
+# 2. Deploy infrastructure
 terraform init
+terraform plan -var-file=terraform.tfvars.local
+terraform apply -var-file=terraform.tfvars.local
 
-# Plan changes
-terraform plan
-
-# Apply changes (will use Scalr backend)
-terraform apply
+# 3. Wait for cloud-init (3-5 minutes)
+# 4. Test SSH and Vault installation
+ssh ansible@192.168.10.30 "vault version"
 ```
+
+## 🔧 Post-Deployment
+
+### Verify Installation
+
+```bash
+# Check Vault installation on any VM
+ssh ansible@192.168.10.30
+vault version                    # Should show v1.20.2+
+sudo systemctl status vault      # Should be enabled
+ls -la /etc/vault.d/            # Config directory
+ls -la /opt/vault/              # Data and logs
+```
+
+### Start Vault Service
+
+```bash
+# Vault is installed but not started (needs initialization first)
+sudo systemctl start vault
+vault status  # Should show "Vault is sealed"
+```
+
+### Next Steps
+
+1. **Initialize Vault**: `vault operator init`
+2. **Unseal Vault**: `vault operator unseal` (x3)
+3. **Configure Authentication**: Set up auth methods
+4. **Set up Auto-Unseal**: Configure transit engine on master
+5. **Form Raft Cluster**: Join production nodes
+
+## Deployment
 
 ## Network Configuration
 
@@ -90,6 +175,93 @@ After deployment, Terraform provides:
 - Vault API endpoints
 - Ansible inventory for configuration management
 - Cluster resource summary
+
+## 🔍 Troubleshooting
+
+### VM Not Accessible via SSH
+
+```bash
+# 1. Check if VM is running
+ssh proxmox-node "qm status <VM-ID>"
+
+# 2. VMs need 3-5 minutes for cloud-init to complete
+# Check cloud-init status from VM console or wait longer
+
+# 3. Clear old SSH host keys if recreating VMs
+ssh-keygen -R 192.168.10.30
+```
+
+### Vault Not Installed
+
+```bash
+# Check if correct vendor-data was processed
+ssh ansible@192.168.10.30 "sudo head -20 /var/lib/cloud/instance/vendor-data.txt"
+
+# Should show enhanced cloud-config, not just qemu-guest-agent
+# If only shows basic config, vendor-data.yaml needs to be updated on that Proxmox node
+```
+
+### Cloud-Init Issues
+
+```bash
+# Check cloud-init logs
+ssh ansible@192.168.10.30 "sudo tail -50 /var/log/cloud-init.log"
+ssh ansible@192.168.10.30 "sudo tail -50 /var/log/cloud-init-output.log"
+
+# Check cloud-init status
+ssh ansible@192.168.10.30 "cloud-init status"
+```
+
+### QEMU Guest Agent Not Working
+
+```bash
+# Test from Proxmox node
+ssh proxmox-node "qm agent <VM-ID> ping"
+
+# If no response, check service inside VM
+ssh ansible@192.168.10.30 "sudo systemctl status qemu-guest-agent"
+```
+
+## 🔧 Technical Details
+
+### Cloud-Init Configuration
+
+Our infrastructure uses a sophisticated cloud-init setup:
+
+- **User Data**: Handled by Terraform (SSH keys, network, user account)
+- **Vendor Data**: Enhanced snippet (`/var/lib/vz/snippets/vendor-data.yaml`) on all Proxmox nodes
+- **DNS Configuration**: Added via Terraform for reliable connectivity
+- **Multi-Node Support**: Vendor-data distributed to lloyd, holly, mable
+
+### Vendor-Data Snippet Location
+
+```bash
+# Snippet must exist on each Proxmox node where VMs are created
+/var/lib/vz/snippets/vendor-data.yaml   # On lloyd, holly, mable
+```
+
+### Cloud-Init Processing Flow
+
+1. **VM Creation**: Terraform creates VM with vendor-data reference
+2. **First Boot**: Cloud-init processes user-data + vendor-data
+3. **Package Updates**: System updates and HashiCorp repo added
+4. **Vault Installation**: Official Vault package installed
+5. **Configuration**: Vault config, directories, service setup
+6. **Reboot**: System reboots with all services enabled
+7. **Ready**: VM fully configured and accessible
+
+### Important File Locations
+
+```
+/etc/vault.d/vault.hcl          # Main Vault configuration
+/opt/vault/data/                # Vault data directory
+/opt/vault/logs/                # Vault logs directory
+/opt/vault/README.md            # Auto-generated documentation
+/usr/bin/vault                  # Vault binary
+/etc/systemd/system/vault.service  # Vault systemd service (if custom)
+/var/log/cloud-init.log         # Cloud-init processing logs
+/var/log/cloud-init-output.log  # Cloud-init command output
+```
 
 ## Security Notes
 
