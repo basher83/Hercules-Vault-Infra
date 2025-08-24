@@ -1,0 +1,105 @@
+# Mise configuration for terraform-homelab
+
+[settings]
+auto_install = true
+not_found_auto_install = true
+jobs = 4
+
+[settings.status]
+show_tools = true
+show_env = false
+truncate = true
+
+[tools]
+cosign = "2.5.3"
+eza = "0.23.0"
+fd = "10.2.0"
+rg = "14.1.1"
+# Pin to Terraform >=1.10 to support Ephemeral Resources
+terraform = "1.13.0"
+terraform-docs = "0.20.0"
+tflint = "0.58.1"
+
+[tasks.fmt]
+description = "Format all Terraform files recursively"
+run = "terraform fmt -recursive"
+
+[tasks.fmt-check]
+description = "Check formatting recursively (non-mutating, CI-friendly)"
+run = "terraform fmt -recursive -check -diff"
+
+[tasks.dev-validate]
+description = "Validate Terraform in development environment"
+dir = "infrastructure/environments/development"
+run = "terraform init -backend=false -input=false >/dev/null && terraform validate"
+
+[tasks.staging-validate]
+description = "Validate Terraform in staging environment"
+dir = "infrastructure/environments/staging"
+run = "terraform init -backend=false -input=false >/dev/null && terraform validate"
+
+[tasks.test-validate]
+description = "Validate Terraform in test environment"
+dir = "infrastructure/environments/test"
+run = "terraform init -backend=false -input=false >/dev/null && terraform validate"
+
+[tasks.prod-validate]
+description = "Validate Terraform in production environment"
+dir = "infrastructure/environments/production"
+run = "terraform init -backend=false -input=false >/dev/null && terraform validate"
+
+[tasks.scalr-validate]
+description = "Validate Terraform in Scalr management"
+dir = "infrastructure/scalr-management"
+run = "terraform init -backend=false -input=false >/dev/null && terraform validate"
+
+[tasks.docs]
+description = "Generate Terraform documentation for all modules and environments"
+run = "./scripts/terraform/generate-docs.sh"
+
+[tasks.docs-check]
+description = "Check if Terraform documentation is up-to-date"
+dir = "infrastructure"
+run = "terraform-docs --config .terraform-docs.yml --output-check ."
+[tasks.lint-dev]
+description = "Run TFLint in development environment"
+dir = "infrastructure/environments/development"
+run = "tflint --init && tflint"
+
+[tasks.lint-staging]
+description = "Run TFLint in staging environment"
+dir = "infrastructure/environments/staging"
+run = "tflint --init && tflint"
+
+[tasks.lint-test]
+description = "Run TFLint in test environment"
+dir = "infrastructure/environments/test"
+run = "tflint --init && tflint"
+
+[tasks.lint-prod]
+description = "Run TFLint in production environment"
+dir = "infrastructure/environments/production"
+run = "tflint --init && tflint"
+
+[tasks.lint-scalr]
+description = "Run TFLint in Scalr management"
+dir = "infrastructure/scalr-management"
+run = "tflint --init && tflint"
+[tasks.check]
+description = "Format, lint, and validate all environments"
+depends = [
+  "fmt",
+  "lint-dev",
+  "lint-staging",
+  "lint-test",
+  "lint-prod",
+  "lint-scalr",
+  "dev-validate",
+  "staging-validate",
+  "test-validate",
+  "prod-validate",
+  "scalr-validate",
+]
+env = { TF_IN_AUTOMATION = "true", TF_INPUT = "false" }
+
+

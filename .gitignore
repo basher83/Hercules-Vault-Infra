@@ -1,0 +1,53 @@
+# Local Terraform state
+*.tfstate
+*.tfstate.backup
+*.tfstate.*
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Ignore all files in the configuration vars directory
+configuration/vars/*
+
+# Terraform CLI dirs
+.terraform/
+**/.terraform/*
+
+# Terraform lock files (managed by Scalr)
+.terraform.lock.hcl
+
+# Python virtual environments
+.venv/
+
+# Sensitive override files
+terraform.tfvars
+*.auto.tfvars
+
+# Ansible
+.ansible/
+inventory.ini
+hosts
+#group_vars/
+#host_vars/
+*.retry
+*.log
+.vault_pass.txt
+#ansible.cfg
+
+# IDE/editor noise
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+*.code-workspace
+
+# OS junk
+Thumbs.db
+
+
+.mcp.json
+
+
+.envrc
