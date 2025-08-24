@@ -25,11 +25,6 @@ variable "template_id" {
   type        = number
 }
 
-variable "template_node" {
-  description = "Source node where the template VM exists (e.g., 'lloyd')"
-  type        = string
-}
-
 variable "vcpu" {
   description = "Number of vCPUs"
   type        = number
@@ -51,6 +46,12 @@ variable "memory" {
 variable "vm_datastore" {
   description = "Storage for VM disk"
   type        = string
+}
+
+variable "user_data_file_id" {
+  description = "File ID of cloud-init user data snippet"
+  type        = string
+  default     = null
 }
 
 variable "vm_disk_size" {

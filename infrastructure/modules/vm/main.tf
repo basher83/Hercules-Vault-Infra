@@ -18,13 +18,11 @@ resource "proxmox_virtual_environment_vm" "vm" {
 
   agent {
     enabled = true # Will be installed via cloud-init
-    timeout = "5m" # Reduced from default 15m since cloud-init installs it quickly
   }
 
   clone {
-    vm_id     = var.template_id
-    node_name = var.template_node # Source node where template exists
-    full      = true
+    vm_id = var.template_id
+    full  = true
   }
 
   disk {
@@ -66,6 +64,8 @@ resource "proxmox_virtual_environment_vm" "vm" {
   initialization {
     interface = "ide2"
     type      = "nocloud"
+
+    user_data_file_id = var.user_data_file_id
 
     user_account {
       username = var.cloud_init_username
