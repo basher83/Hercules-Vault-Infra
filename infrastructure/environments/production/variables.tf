@@ -65,3 +65,10 @@ variable "proxmox_ssh_username" {
   type        = string
   default     = "root"
 }
+
+variable "ssh_private_key" {
+  description = "SSH private key for Proxmox host authentication"
+  type        = string
+  sensitive   = true
+  default     = ""
+}

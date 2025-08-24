@@ -20,7 +20,8 @@ provider "proxmox" {
 
   # SSH connection for operations that require it (e.g., uploading files)
   ssh {
-    agent    = true
-    username = var.proxmox_ssh_username
+    agent       = var.ssh_private_key == "" ? true : false
+    username    = var.proxmox_ssh_username
+    private_key = var.ssh_private_key != "" ? var.ssh_private_key : null
   }
 }
