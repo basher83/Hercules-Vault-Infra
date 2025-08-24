@@ -53,5 +53,3 @@ module "test_vms" {
 
   vm_tags = ["terraform", "test", "temporary", "og-homelab"]
 }
-
-

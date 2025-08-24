@@ -61,5 +61,3 @@ variable "test_vm_configs" {
     error_message = "Each test VM 'name' must match ^[a-z0-9-]{1,63}$ (lowercase, digits, hyphens only, max 63 chars)."
   }
 }
-
-

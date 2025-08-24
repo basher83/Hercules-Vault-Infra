@@ -21,23 +21,23 @@ runcmd:
   # Start QEMU guest agent immediately
   - systemctl start qemu-guest-agent
   - systemctl enable qemu-guest-agent
-  
+
   # Add HashiCorp GPG key and repository
   - wget -O - https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
   - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
-  
+
   # Update and install Vault
   - apt-get update
   - apt-get install -y vault
-  
+
   # Create Vault data directory
   - mkdir -p /opt/vault/data
   - chown -R vault:vault /opt/vault
-  
+
   # Set Vault to not start automatically (will configure first)
   - systemctl stop vault
   - systemctl disable vault
-  
+
   # Configure UFW firewall
   - ufw default deny incoming
   - ufw default allow outgoing
@@ -45,11 +45,11 @@ runcmd:
   - ufw allow 8200/tcp  # Vault API
   - ufw allow 8201/tcp  # Vault Raft
   - echo "y" | ufw enable
-  
+
   # Set up Vault environment
   - echo 'export VAULT_ADDR="https://127.0.0.1:8200"' >> /etc/environment
   - echo 'export VAULT_SKIP_VERIFY="true"' >> /etc/environment
-  
+
   # Log installation status
   - vault version || echo "Vault installation may have failed"
   - systemctl status qemu-guest-agent || echo "Guest agent not running"
@@ -77,12 +77,12 @@ write_files:
       # This is a placeholder - will be updated based on node role
       ui = true
       disable_mlock = true
-      
+
       listener "tcp" {
         address       = "0.0.0.0:8200"
         tls_disable   = "true"  # Will be configured with proper TLS later
       }
-      
+
       # Storage backend will be configured based on role:
       # - Master: Dev mode with Transit engine
       # - Production: Raft storage backend

@@ -77,5 +77,3 @@ resource "scalr_workspace" "staging_proxmox" {
   type    = "staging"
   tag_ids = [scalr_tag.this["production"].id, scalr_tag.this["doggos-homelab"].id]
 }
-
-

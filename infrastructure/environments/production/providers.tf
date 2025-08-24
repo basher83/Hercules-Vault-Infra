@@ -18,9 +18,9 @@ provider "proxmox" {
   api_token = var.pve_api_token
   insecure  = var.proxmox_insecure
 
-  # SSH connection removed - testing if still needed
-  # ssh {
-  #   agent    = true
-  #   username = var.proxmox_ssh_username
-  # }
+  # SSH connection required for file upload operations
+  ssh {
+    agent    = true
+    username = var.proxmox_ssh_username
+  }
 }

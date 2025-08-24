@@ -39,5 +39,3 @@ resource "scalr_variable" "test_ssh_key" {
   workspace_id = scalr_workspace.test_proxmox.id
   description  = "SSH public key for test VMs"
 }
-
-

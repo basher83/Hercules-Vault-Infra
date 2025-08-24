@@ -10,12 +10,12 @@ This directory contains all Terraform-related code for provisioning and managing
 
 Our infrastructure leverages advanced cloud-init configurations to provide:
 
-✅ **Complete Software Installation** - Vault, dependencies, repositories  
-✅ **DNS Configuration** - Reliable internet connectivity (8.8.8.8, 8.8.4.4)  
-✅ **QEMU Guest Agent** - Seamless Terraform lifecycle management  
-✅ **Service Configuration** - Systemd services configured and enabled  
-✅ **Security Hardening** - Proper permissions and user accounts  
-✅ **Multi-Node Distribution** - Vendor-data snippets deployed across cluster  
+✅ **Complete Software Installation** - Vault, dependencies, repositories
+✅ **DNS Configuration** - Reliable internet connectivity (8.8.8.8, 8.8.4.4)
+✅ **QEMU Guest Agent** - Seamless Terraform lifecycle management
+✅ **Service Configuration** - Systemd services configured and enabled
+✅ **Security Hardening** - Proper permissions and user accounts
+✅ **Multi-Node Distribution** - Vendor-data snippets deployed across cluster
 
 ### What Gets Deployed Automatically
 

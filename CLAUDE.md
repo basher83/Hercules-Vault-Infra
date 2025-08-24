@@ -97,7 +97,7 @@ The VM module (`infrastructure/modules/vm/`) provides:
 The production environment creates 4 VMs with specific roles:
 - `vault-master` (192.168.10.30) - Auto-unseal provider, 2 vCPU, 4GB RAM
 - `vault-prod-1` (192.168.10.31) - Production node 1, 4 vCPU, 8GB RAM
-- `vault-prod-2` (192.168.10.32) - Production node 2, 4 vCPU, 8GB RAM  
+- `vault-prod-2` (192.168.10.32) - Production node 2, 4 vCPU, 8GB RAM
 - `vault-prod-3` (192.168.10.33) - Production node 3, 4 vCPU, 8GB RAM
 
 ### Scalr Configuration

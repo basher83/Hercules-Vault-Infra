@@ -65,7 +65,7 @@ echo
 # Copy SSH key to each Proxmox host
 for host in "${PROXMOX_HOSTS[@]}"; do
     echo -e "${YELLOW}Configuring SSH for ${host}...${NC}"
-    
+
     # Test if we already have passwordless SSH access
     if ssh -o BatchMode=yes -o ConnectTimeout=5 root@"${host}" echo "SSH OK" 2>/dev/null; then
         echo -e "${GREEN}✓ SSH already configured for ${host}${NC}"

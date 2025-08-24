@@ -109,4 +109,3 @@ variable "dns_servers" {
   type        = list(string)
   default     = ["8.8.8.8", "8.8.4.4"]
 }
-

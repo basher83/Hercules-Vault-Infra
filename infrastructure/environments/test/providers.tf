@@ -3,5 +3,3 @@ provider "proxmox" {
   api_token = var.pve_api_token_og
   insecure  = var.proxmox_insecure
 }
-
-
