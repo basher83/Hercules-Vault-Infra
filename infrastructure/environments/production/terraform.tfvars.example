@@ -11,7 +11,7 @@ vault_network_subnet = "192.168.10"  # Adjust to your network subnet (without la
 
 # VM Template
 template_id   = 8000    # Ubuntu 22.04 LTS template ID in Proxmox
-template_node = "lloyd" # Node where the template exists
+
 
 # Storage Configuration
 vm_datastore = "local-lvm"  # Proxmox datastore for VM disks

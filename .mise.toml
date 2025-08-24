@@ -28,20 +28,6 @@ run = "terraform fmt -recursive"
 description = "Check formatting recursively (non-mutating, CI-friendly)"
 run = "terraform fmt -recursive -check -diff"
 
-[tasks.dev-validate]
-description = "Validate Terraform in development environment"
-dir = "infrastructure/environments/development"
-run = "terraform init -backend=false -input=false >/dev/null && terraform validate"
-
-[tasks.staging-validate]
-description = "Validate Terraform in staging environment"
-dir = "infrastructure/environments/staging"
-run = "terraform init -backend=false -input=false >/dev/null && terraform validate"
-
-[tasks.test-validate]
-description = "Validate Terraform in test environment"
-dir = "infrastructure/environments/test"
-run = "terraform init -backend=false -input=false >/dev/null && terraform validate"
 
 [tasks.prod-validate]
 description = "Validate Terraform in production environment"
@@ -61,20 +47,6 @@ run = "./scripts/terraform/generate-docs.sh"
 description = "Check if Terraform documentation is up-to-date"
 dir = "infrastructure"
 run = "terraform-docs --config .terraform-docs.yml --output-check ."
-[tasks.lint-dev]
-description = "Run TFLint in development environment"
-dir = "infrastructure/environments/development"
-run = "tflint --init && tflint"
-
-[tasks.lint-staging]
-description = "Run TFLint in staging environment"
-dir = "infrastructure/environments/staging"
-run = "tflint --init && tflint"
-
-[tasks.lint-test]
-description = "Run TFLint in test environment"
-dir = "infrastructure/environments/test"
-run = "tflint --init && tflint"
 
 [tasks.lint-prod]
 description = "Run TFLint in production environment"
@@ -86,17 +58,11 @@ description = "Run TFLint in Scalr management"
 dir = "infrastructure/scalr-management"
 run = "tflint --init && tflint"
 [tasks.check]
-description = "Format, lint, and validate all environments"
+description = "Format, lint, and validate production environment"
 depends = [
   "fmt",
-  "lint-dev",
-  "lint-staging",
-  "lint-test",
   "lint-prod",
   "lint-scalr",
-  "dev-validate",
-  "staging-validate",
-  "test-validate",
   "prod-validate",
   "scalr-validate",
 ]

@@ -16,12 +16,12 @@ Total Resources: 14 vCPUs, 28GB RAM, 340GB Storage
 ```
 infrastructure/
 ├── environments/
-│   ├── production/      # Production Vault cluster configuration
-│   ├── staging/         # Staging environment (future)
-│   ├── development/     # Dev environment (future)
-│   └── test/           # Test environment configurations
-└── modules/
-    └── vm/             # Reusable Proxmox VM module
+│   └── production/      # Production Vault cluster configuration
+├── modules/
+│   └── vm/             # Reusable Proxmox VM module
+└── scalr-management/   # Scalr workspace management
+scripts/                # Essential utilities
+docs/                   # Infrastructure requirements
 ```
 
 ## 🚀 Quick Start
@@ -32,7 +32,7 @@ infrastructure/
 - Ubuntu 22.04 template in Proxmox (ID: 8000)
 - Scalr account with workspace configured
 - Terraform >= 1.3.0
-- SSH access to deployed VMs for post-deployment setup
+- mise tool manager (for task automation)
 
 ### Deployment Steps
 
@@ -43,18 +43,23 @@ infrastructure/
    ci_ssh_key    = "ssh-ed25519 AAAA..."
    ```
 
-2. **Deploy via Scalr VCS**
+2. **Validate Configuration Locally**
+   ```bash
+   # Format, lint, and validate all configurations
+   mise run check
+   ```
+
+3. **Deploy via Scalr VCS**
    - Push changes to your linked repository
    - Scalr automatically triggers a plan
    - Review and apply through Scalr UI
 
-3. **Post-Deployment Setup**
-   ```bash
-   # After VMs are created, install Vault and guest agent
-   ./scripts/post-deploy-vault-setup.sh
-   ```
+4. **Automatic VM Configuration**
+   - VMs are automatically configured via cloud-init
+   - Vault and QEMU guest agent installed during provisioning
+   - No manual post-deployment steps required
 
-4. **Manual Deployment (Development Only)**
+5. **Manual Deployment (Development Only)**
    ```bash
    cd infrastructure/environments/production
    terraform init
@@ -98,8 +103,9 @@ VMs are distributed across Proxmox nodes for fault tolerance:
 - **Auto-unseal**: Master Vault provides Transit engine for automatic unsealing
 - **Raft Storage**: Built-in replication and consensus
 - **Single NIC**: Simplified network attack surface
-- **Cloud-init**: Secure initial configuration
+- **Cloud-init Automation**: Secure automated VM provisioning
 - **SSH Key Auth**: No password authentication
+- **nftables Firewall**: External firewall management (no conflicting services)
 
 ## 📊 Outputs
 
@@ -136,7 +142,7 @@ After deployment, Terraform provides:
 ## 🤝 Contributing
 
 1. Create feature branch from `main`
-2. Make changes and test locally
+2. Make changes and validate locally with `mise run check`
 3. Push to trigger Scalr plan
 4. Create PR for review
 5. Merge triggers production deployment
@@ -156,6 +162,9 @@ All resources are tagged with:
 
 ## ⚠️ Important Notes
 
+- **Automated provisioning**: Cloud-init handles all VM setup (Vault + QEMU agent)
+- **Production-focused**: Single environment design for simplified deployment
+- **nftables management**: External firewall control, no conflicting services
 - Never commit `terraform.tfvars` with actual values
 - Use `terraform.tfvars.example` as template
 - Sensitive variables must be configured in Scalr
