@@ -114,6 +114,7 @@ module "vm" {
   template_id         = local.node_assignments[each.key].template_id
   template_node       = var.template_node
   cloud_init_username = var.cloud_init_username
+  cloud_init_user_data = base64encode(file("${path.module}/cloud-init.yaml"))
 
   // Tags: common, environment, node, and role-specific
   vm_tags = concat(
