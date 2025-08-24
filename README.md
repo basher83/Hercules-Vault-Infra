@@ -32,22 +32,36 @@ infrastructure/
 - Ubuntu 22.04 template in Proxmox (ID: 8000)
 - Scalr account with workspace configured
 - Terraform >= 1.3.0
+- SSH access to Proxmox hosts (for file uploads)
 
 ### Deployment Steps
 
-1. **Configure Scalr Workspace Variables**
-   ```hcl
-   pve_api_url   = "https://your-proxmox:8006/api2/json"
-   pve_api_token = "user@pam!token-id=token-secret"
-   ci_ssh_key    = "ssh-ed25519 AAAA..."
+1. **Setup SSH Authentication for Proxmox**
+   ```bash
+   # Run the setup script to configure SSH keys
+   ./scripts/setup-proxmox-ssh.sh
+   
+   # Or manually:
+   ssh-add ~/.ssh/id_rsa
+   ssh-copy-id root@192.168.10.2  # holly
+   ssh-copy-id root@192.168.10.3  # mable
+   ssh-copy-id root@192.168.10.4  # lloyd
    ```
 
-2. **Initialize and Deploy via Scalr VCS**
+2. **Configure Scalr Workspace Variables**
+   ```hcl
+   pve_api_url          = "https://your-proxmox:8006/api2/json"
+   pve_api_token        = "user@pam!token-id=token-secret"
+   ci_ssh_key           = "ssh-ed25519 AAAA..."
+   proxmox_ssh_username = "root"  # SSH user for file uploads
+   ```
+
+3. **Initialize and Deploy via Scalr VCS**
    - Push changes to your linked repository
    - Scalr automatically triggers a plan
    - Review and apply through Scalr UI
 
-3. **Manual Deployment (Development Only)**
+4. **Manual Deployment (Development Only)**
    ```bash
    cd infrastructure/environments/production
    terraform init
@@ -72,6 +86,7 @@ Required variables are configured in Scalr workspace:
 - `pve_api_url` - Proxmox API endpoint
 - `pve_api_token` - API authentication token
 - `ci_ssh_key` - SSH key for VM access
+- `proxmox_ssh_username` - SSH username for Proxmox hosts (default: root)
 
 Optional variables with defaults:
 - `vault_network_subnet` - Network subnet (default: 192.168.10)
