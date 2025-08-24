@@ -65,3 +65,9 @@ variable "proxmox_insecure" {
   type        = bool
   default     = false # Production should use valid certificates
 }
+
+variable "proxmox_ssh_username" {
+  description = "SSH username for Proxmox host connections (required for file uploads)"
+  type        = string
+  default     = "root"
+}

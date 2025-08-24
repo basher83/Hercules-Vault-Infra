@@ -18,8 +18,9 @@ provider "proxmox" {
   api_token = var.pve_api_token
   insecure  = var.proxmox_insecure
 
-  # SSH connection for operations that require it
+  # SSH connection for operations that require it (e.g., uploading files)
   ssh {
-    agent = true
+    agent    = true
+    username = var.proxmox_ssh_username
   }
 }

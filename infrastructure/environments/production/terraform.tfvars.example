@@ -3,6 +3,9 @@ pve_api_url       = "https://proxmox.example.com:8006/api2/json"
 pve_api_token     = "user@pam!token-id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 proxmox_insecure  = false  # Set to true only for dev environments with self-signed certs
 
+# Proxmox SSH Configuration (required for file uploads)
+proxmox_ssh_username = "root"  # SSH username for Proxmox hosts
+
 # Network Configuration
 vault_network_subnet = "192.168.10"  # Adjust to your network subnet (without last octet)
 
