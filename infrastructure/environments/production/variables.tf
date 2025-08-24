@@ -12,6 +12,12 @@ variable "template_id" {
   description = "Template ID for VM cloning"
 }
 
+variable "template_node" {
+  type        = string
+  default     = "lloyd"
+  description = "Node where the template VM exists"
+}
+
 # --- Shared Environment Variables ---
 
 variable "vm_datastore" {
