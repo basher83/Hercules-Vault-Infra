@@ -64,9 +64,8 @@ resource "proxmox_virtual_environment_vm" "vm" {
   }
 
   initialization {
-    interface         = "ide2"
-    type              = "nocloud"
-    user_data_file_id = var.cloud_init_user_data_file_id != "" ? var.cloud_init_user_data_file_id : null
+    interface = "ide2"
+    type      = "nocloud"
 
     user_account {
       username = var.cloud_init_username

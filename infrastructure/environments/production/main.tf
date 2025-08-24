@@ -1,17 +1,3 @@
-// Upload cloud-init configuration to Proxmox
-resource "proxmox_virtual_environment_file" "vault_cloud_init" {
-  for_each = local.vm_instances
-
-  content_type = "snippets"
-  datastore_id = "local"
-  node_name    = local.node_assignments[each.key].node
-
-  source_raw {
-    data      = file("${path.module}/cloud-init.yaml")
-    file_name = "vault-${each.key}-cloud-init.yaml"
-  }
-}
-
 locals {
   // Environment-specific VM ID offset to avoid conflicts
   vm_id_offset = 3000 // Production offset for Vault cluster
@@ -124,11 +110,10 @@ module "vm" {
   vm_ip_secondary     = ""
 
   // Cloud-init configuration
-  ci_ssh_key                   = var.ci_ssh_key
-  template_id                  = local.node_assignments[each.key].template_id
-  template_node                = var.template_node
-  cloud_init_username          = var.cloud_init_username
-  cloud_init_user_data_file_id = proxmox_virtual_environment_file.vault_cloud_init[each.key].id
+  ci_ssh_key          = var.ci_ssh_key
+  template_id         = local.node_assignments[each.key].template_id
+  template_node       = var.template_node
+  cloud_init_username = var.cloud_init_username
 
   // Tags: common, environment, node, and role-specific
   vm_tags = concat(

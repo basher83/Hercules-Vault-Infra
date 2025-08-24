@@ -104,8 +104,3 @@ variable "ci_ssh_key" {
   type        = string
 }
 
-variable "cloud_init_user_data_file_id" {
-  description = "File ID of the cloud-init user data file uploaded to Proxmox"
-  type        = string
-  default     = ""
-}
