@@ -17,13 +17,13 @@ resource "proxmox_virtual_environment_vm" "vm" {
   bios        = "ovmf"
 
   agent {
-    enabled = true  # Will be installed via cloud-init
-    timeout = "5m"  # Reduced from default 15m since cloud-init installs it quickly
+    enabled = true # Will be installed via cloud-init
+    timeout = "5m" # Reduced from default 15m since cloud-init installs it quickly
   }
 
   clone {
     vm_id     = var.template_id
-    node_name = var.template_node  # Source node where template exists
+    node_name = var.template_node # Source node where template exists
     full      = true
   }
 
@@ -64,14 +64,14 @@ resource "proxmox_virtual_environment_vm" "vm" {
   }
 
   initialization {
-    interface = "ide2"
-    type      = "nocloud"
+    interface         = "ide2"
+    type              = "nocloud"
+    user_data_file_id = var.cloud_init_user_data_file_id != "" ? var.cloud_init_user_data_file_id : null
+
     user_account {
       username = var.cloud_init_username
       keys     = [var.ci_ssh_key]
     }
-
-    user_data = var.cloud_init_user_data != "" ? var.cloud_init_user_data : null
 
     ip_config {
       ipv4 {
