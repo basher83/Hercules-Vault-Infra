@@ -1,0 +1,20 @@
+# --- Scalr connection ---
+scalr_hostname              = "the-mothership.scalr.io"
+scalr_token                 = "scalr.sensitive.token"
+scalr_account_id            = "acc-xxxxxxxxxx"
+scalr_environment_name      = "homelab"
+
+# --- VCS integration ---
+scalr_vcs_provider_id       = "vcs-xxxxxxxxxx"
+repo_identifier             = "basher83/terraform-homelab"
+repo_branch                 = "main"
+
+# --- Provider configurations (pre-created in Scalr) ---
+proxmox_og_provider_config_id    = "pcfg-aaaaaaaaaa"
+proxmox_doggos_provider_config_id = "pcfg-bbbbbbbbbb"
+
+# --- Workspace variables for test environment ---
+og_homelab_api_token        = "pve-user@pve!token-id=secret"
+test_ssh_public_key         = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... user@example"
+
+
