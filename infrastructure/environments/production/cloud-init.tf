@@ -1,8 +1,8 @@
 # Cloud-init snippet file for Vault cluster VMs
 resource "proxmox_virtual_environment_file" "vault_cloud_init" {
   content_type = "snippets"
-  datastore_id = "local"
-  node_name    = "lloyd" # Primary Proxmox node for snippet storage
+  datastore_id = "nomad-volumes" # Shared NFS storage accessible by all nodes
+  node_name    = "lloyd"         # Upload to one node, accessible by all via NFS
 
   source_raw {
     data = <<-EOF
