@@ -17,7 +17,8 @@ resource "proxmox_virtual_environment_vm" "vm" {
   bios        = "ovmf"
 
   agent {
-    enabled = true
+    enabled = true  # Will be installed via cloud-init
+    timeout = "5m"  # Reduced from default 15m since cloud-init installs it quickly
   }
 
   clone {
@@ -69,6 +70,8 @@ resource "proxmox_virtual_environment_vm" "vm" {
       username = var.cloud_init_username
       keys     = [var.ci_ssh_key]
     }
+
+    user_data = var.cloud_init_user_data != "" ? var.cloud_init_user_data : null
 
     ip_config {
       ipv4 {

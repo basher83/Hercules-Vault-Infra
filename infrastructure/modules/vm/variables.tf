@@ -103,3 +103,9 @@ variable "ci_ssh_key" {
   description = "SSH public key for cloud-init"
   type        = string
 }
+
+variable "cloud_init_user_data" {
+  description = "Cloud-init user data configuration (base64 encoded)"
+  type        = string
+  default     = ""
+}
