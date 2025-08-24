@@ -112,8 +112,8 @@ module "vm" {
   // Cloud-init configuration
   ci_ssh_key          = var.ci_ssh_key
   template_id         = local.node_assignments[each.key].template_id
+  template_node       = var.template_node
   cloud_init_username = var.cloud_init_username
-  user_data_file_id   = proxmox_virtual_environment_file.vault_cloud_init.id
 
   // Tags: common, environment, node, and role-specific
   vm_tags = concat(

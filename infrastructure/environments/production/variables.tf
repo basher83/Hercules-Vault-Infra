@@ -12,6 +12,12 @@ variable "template_id" {
   description = "Template ID for VM cloning"
 }
 
+variable "template_node" {
+  type        = string
+  default     = "lloyd"
+  description = "Node where the template VM exists"
+}
+
 # --- Shared Environment Variables ---
 
 variable "vm_datastore" {
@@ -64,11 +70,4 @@ variable "proxmox_ssh_username" {
   description = "SSH username for Proxmox host connections (required for file uploads)"
   type        = string
   default     = "root"
-}
-
-variable "ssh_private_key" {
-  description = "SSH private key for Proxmox host authentication"
-  type        = string
-  sensitive   = true
-  default     = ""
 }

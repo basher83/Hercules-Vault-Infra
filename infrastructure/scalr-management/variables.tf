@@ -50,6 +50,23 @@ variable "repo_branch" {
   default     = "main"
 }
 
+variable "trigger_patterns_test" {
+  description = "Trigger patterns for test workspace (gitignore-style)"
+  type        = string
+  default     = <<-EOT
+    /infrastructure/environments/test/
+    /infrastructure/modules/test-vm/
+  EOT
+}
+
+variable "trigger_patterns_staging" {
+  description = "Trigger patterns for staging workspace (gitignore-style)"
+  type        = string
+  default     = <<-EOT
+    /infrastructure/environments/staging/
+    /infrastructure/modules/vm/
+  EOT
+}
 
 variable "test_workspace_name" {
   description = "Name of the test workspace"
