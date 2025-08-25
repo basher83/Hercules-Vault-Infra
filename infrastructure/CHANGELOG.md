@@ -8,8 +8,9 @@ documented in this file.
 ### 🎯 Major Features Added
 
 #### **Complete Vault Auto-Installation**
-- ✅ **Vault Binary Installation**: Automatic Vault v1.20.2+ installation
-  from HashiCorp repository
+
+- ✅ **Vault Binary Installation**: Automatic installation from the official HashiCorp repository
+  (version pinned in Terraform/cloud‑init; see module docs)
 - ✅ **Configuration Management**: Pre-configured `/etc/vault.d/vault.hcl`
   with cluster settings
 - ✅ **Directory Setup**: Auto-creation of data (`/opt/vault/data/`) and
@@ -19,8 +20,8 @@ documented in this file.
 - ✅ **User Management**: Vault system user created with proper permissions
 - ✅ **Environment Setup**: Vault CLI environment variables pre-configured
 
-
 #### **Enhanced Cloud-Init Integration**
+
 - ✅ **Vendor Data Enhancement**: Comprehensive cloud-init script for
   complete system provisioning
 - ✅ **Multi-Node Distribution**: Vendor-data snippets deployed to all
@@ -30,8 +31,8 @@ documented in this file.
 - ✅ **Repository Configuration**: HashiCorp APT repository added with
   GPG key verification
 
-
 #### **Network & Infrastructure Improvements**
+
 - ✅ **DNS Configuration**: Reliable DNS servers (8.8.8.8, 8.8.4.4)
   configured via Terraform
 - ✅ **QEMU Guest Agent**: Automatic installation and configuration for
@@ -41,8 +42,8 @@ documented in this file.
 - ✅ **Host Key Management**: Automated SSH host key cleanup for VM
   recreation scenarios
 
-
 #### **Terraform Enhancements**
+
 - ✅ **VM Module Updates**: Added DNS server configuration support
 - ✅ **Vendor Data Integration**: Terraform now references enhanced
   cloud-init snippets
@@ -53,8 +54,8 @@ documented in this file.
 
 ### 🔧 Technical Improvements
 
-
 #### **Cloud-Init Architecture**
+
 - **User Data**: Managed by Terraform for SSH keys, network configuration,
   user accounts
 - **Vendor Data**: Enhanced snippet handling software installation, service
@@ -62,19 +63,18 @@ documented in this file.
 - **Processing Flow**: VM creation → cloud-init processing → software
   installation → configuration → reboot → ready
 
-
 #### **File Structure Changes**
 
 ```text
-/var/lib/vz/snippets/vendor-data.yaml    # Enhanced cloud-init script
-/etc/vault.d/vault.hcl                   # Vault configuration
-/opt/vault/data/                         # Vault data directory
-/opt/vault/logs/                         # Vault logs directory
-/opt/vault/README.md                     # Auto-generated documentation
+/var/lib/vz/snippets/hercules-vault-init.yaml  # Enhanced cloud-init (vendor-data) script
+/etc/vault.d/vault.hcl                         # Vault configuration
+/opt/vault/data/                               # Vault data directory
+/opt/vault/logs/                               # Vault logs directory
+/opt/vault/README.md                           # Auto-generated documentation
 ```
 
-
 #### **Service Integration**
+
 - **HashiCorp Repository**: Official APT repository with GPG verification
 - **Package Installation**: Latest Vault version from official sources
 - **Security Hardening**: Proper file permissions and service isolation
@@ -82,8 +82,8 @@ documented in this file.
 
 ### 🎯 Infrastructure Enhancements
 
-
 #### **High Availability Architecture**
+
 - **4-VM Vault Cluster**: 1 master + 3 production nodes
 - **Node Distribution**: VMs distributed across Proxmox cluster for fault
   tolerance
@@ -91,8 +91,8 @@ documented in this file.
   configurations
 - **Network Segmentation**: Dedicated network subnet with proper routing
 
-
 #### **Automation Benefits**
+
 - **Zero Manual Configuration**: Complete infrastructure deployed with
   `terraform apply`
 - **Consistent Deployments**: Identical configuration across all environments
@@ -101,8 +101,8 @@ documented in this file.
 
 ### 📚 Documentation Updates
 
-
 #### **Comprehensive README Updates**
+
 - ✅ **Production Environment**: Complete automation documentation with
   troubleshooting
 - ✅ **Main Infrastructure**: Enhanced with automation feature descriptions
@@ -110,8 +110,8 @@ documented in this file.
 - ✅ **Technical Details**: Cloud-init architecture and file locations
 - ✅ **Troubleshooting Guides**: Common issues and resolution steps
 
-
 #### **New Documentation Sections**
+
 - 🚀 **Automation Features**: What gets installed automatically
 - 🔧 **Post-Deployment**: Verification and next steps
 - 🔍 **Troubleshooting**: Common issues and solutions
@@ -119,16 +119,16 @@ documented in this file.
 
 ### ⚡ Performance & Reliability
 
-
 #### **Deployment Speed**
+
 - **Initial Setup**: ~3-5 minutes for complete VM provisioning including
   Vault installation
 - **Cloud-Init Processing**: Optimized package installation and
   configuration
 - **Service Startup**: All services ready after single reboot cycle
 
-
 #### **Reliability Improvements**
+
 - **DNS Resolution**: Guaranteed internet connectivity for package
   downloads
 - **Package Management**: Official repositories for latest security
@@ -140,16 +140,16 @@ documented in this file.
 
 ### 🛡️ Security Enhancements
 
-
 #### **Access Control**
+
 - **SSH Key Management**: Secure key-based authentication
 - **User Isolation**: Dedicated vault user with minimal privileges
 - **File Permissions**: Proper ownership and permissions for all Vault
   files
 - **Service Hardening**: Systemd security features enabled
 
-
 #### **Network Security**
+
 - **DNS Security**: Reliable DNS resolution with public DNS servers
 - **Repository Security**: GPG-verified package downloads from HashiCorp
 - **Network Isolation**: Dedicated network segments for cluster
@@ -157,16 +157,16 @@ documented in this file.
 
 ### 🔄 Migration & Compatibility
 
-
 #### **Backward Compatibility**
+
 - ✅ **Existing Configurations**: All previous Terraform configurations
   remain valid
 - ✅ **Variable Compatibility**: No breaking changes to variable
   definitions
 - ✅ **State Management**: Existing Terraform state files compatible
 
-
 #### **Upgrade Path**
+
 - **Gradual Migration**: VMs can be recreated individually to gain new
   features
 - **Zero Downtime**: Rolling updates possible with proper Vault cluster
@@ -194,22 +194,23 @@ clusters**. Key achievements:
 
 ### 📊 Before vs After
 
-| Aspect | Before | After |
-|--------|--------|-------|
-| **VM Creation** | Manual template cloning | Automated via Terraform |
-| **Vault Installation** | Manual SSH + commands | Automatic via cloud-init |
-| **Configuration** | Manual file editing | Pre-configured templates |
-| **DNS Setup** | Manual resolv.conf editing | Automatic via Terraform |
-| **Service Setup** | Manual systemd configuration | Automatic via cloud-init |
-| **Documentation** | Basic setup notes | Comprehensive guides |
-| **Troubleshooting** | Trial and error | Documented solutions |
-| **Deployment Time** | ~30+ minutes manual work | ~5 minutes automated |
-| **Consistency** | Variable across deployments | Identical every time |
-| **Recovery Time** | Manual rebuild process | Single Terraform command |
+| Aspect                 | Before                       | After                    |
+| ---------------------- | ---------------------------- | ------------------------ |
+| **VM Creation**        | Manual template cloning      | Automated via Terraform  |
+| **Vault Installation** | Manual SSH + commands        | Automatic via cloud-init |
+| **Configuration**      | Manual file editing          | Pre-configured templates |
+| **DNS Setup**          | Manual resolv.conf editing   | Automatic via Terraform  |
+| **Service Setup**      | Manual systemd configuration | Automatic via cloud-init |
+| **Documentation**      | Basic setup notes            | Comprehensive guides     |
+| **Troubleshooting**    | Trial and error              | Documented solutions     |
+| **Deployment Time**    | ~30+ minutes manual work     | ~5 minutes automated     |
+| **Consistency**        | Variable across deployments  | Identical every time     |
+| **Recovery Time**      | Manual rebuild process       | Single Terraform command |
+
 ## [1.0.0] - 2025-08-23 - Initial Infrastructure
 
-
 ### Added
+
 - Basic Terraform configuration for Vault VMs
 - Proxmox provider integration
 - VM module for standardized deployments
@@ -218,8 +219,8 @@ clusters**. Key achievements:
 - Network configuration for Vault cluster
 - SSH key management
 
-
 ### Infrastructure
+
 - 4-VM Vault cluster design
 - High availability across Proxmox nodes
 - Proper resource allocation
@@ -227,6 +228,5 @@ clusters**. Key achievements:
 
 ---
 
-*This changelog follows [Keep a Changelog]
-(https://keepachangelog.com/en/1.0.0/) format and [Semantic Versioning]
-(https://semver.org/spec/v2.0.0.html).*
+_This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+format and [Semantic Versioning](https://semver.org/spec/v2.0.0.html)._

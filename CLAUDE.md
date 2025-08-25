@@ -9,7 +9,7 @@ This is a Terraform-based Infrastructure-as-Code repository for deploying
 a highly available HashiCorp Vault cluster to Proxmox production
 infrastructure using Scalr for workflow automation.
 
-**Architecture**: Production-ready Vault cluster consisting of 1x Master
+**Architecture**: Production-ready Vault cluster consisting of 1x Primary
 Vault (auto-unseal provider) and 3x Production Vault Nodes (Raft cluster)
 
 ## Common Commands
@@ -72,14 +72,10 @@ mise run prod-validate # Validate production configuration
 
 ### Project Layout
 
-- **infrastructure/environments/production/** - Production Vault cluster
-  deployment
-- **infrastructure/modules/vm/** - Reusable Proxmox VM provisioning
-  module
-- **infrastructure/scalr-management/** - Scalr workspace and provider
-  configuration management
-- **scripts/** - Essential utilities (tag discovery, docs generation,
-  SSH setup)
+- **infrastructure/environments/production/** - Production Vault cluster deployment
+- **infrastructure/modules/vm/** - Reusable Proxmox VM provisioning module
+- **infrastructure/scalr-management/** - Scalr workspace and provider configuration management
+- **scripts/** - Essential utilities (tag discovery, docs generation, SSH setup)
 - **docs/** - Infrastructure requirements documentation
 
 ### Key Architectural Patterns
@@ -92,8 +88,8 @@ mise run prod-validate # Validate production configuration
    workspaces
 4. **High Availability**: VMs distributed across multiple Proxmox nodes
    (lloyd, holly, mable)
-5. **Cloud-init Automation**: Automated Vault installation and QEMU agent
-   setup via cloud-init snippets
+5. **Cloud-init Automation**: Automated Vault installation and QEMU agent setup via cloud-init snippets.
+   Security hardening and detailed configuration are applied in a second phase via Ansible.
 
 ### VM Module Structure
 
@@ -135,13 +131,13 @@ The production environment creates 4 VMs with specific roles:
 
 Configure these variables in the Scalr workspace:
 
-| Variable | Type | Sensitive | Description |
-|----------|------|-----------|-------------|
-| `pve_api_url` | string | No | Proxmox API endpoint |
-| `pve_api_token` | string | Yes | Proxmox API token |
-| `ci_ssh_key` | string | No | SSH public key for VM access |
-| `vm_datastore` | string | No | Proxmox storage datastore |
-| `vm_bridge_1` | string | No | Primary network bridge |
+| Variable        | Type   | Sensitive | Description                  |
+| --------------- | ------ | --------- | ---------------------------- |
+| `pve_api_url`   | string | No        | Proxmox API endpoint         |
+| `pve_api_token` | string | Yes       | Proxmox API token            |
+| `ci_ssh_key`    | string | No        | SSH public key for VM access |
+| `vm_datastore`  | string | No        | Proxmox storage datastore    |
+| `vm_bridge_1`   | string | No        | Primary network bridge       |
 
 ## Development Workflow
 

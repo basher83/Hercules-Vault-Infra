@@ -1,4 +1,4 @@
-# cloud-config
+#cloud-config
 # Cloud-init configuration for Vault cluster VMs
 ---
 # Install required packages
@@ -42,12 +42,14 @@ runcmd:
     cat > /etc/nftables.conf << 'EOF'
     #!/usr/sbin/nft -f
     flush ruleset
-    table inet filter {
-      chain input {
+     table inet filter {
+       chain input {
         type filter hook input priority 0; policy accept;
-      }
-    }
-    EOF
+        # NOTE: Permissive policy by design. Ansible applies hardened rules post‑cloud‑init.
+        # Do not expose Vault to untrusted networks before Ansible completes.
+       }
+     }
+     EOF
   - systemctl start nftables
   # Set up Vault environment (HTTP listener during initial setup)
   - echo 'VAULT_ADDR=http://127.0.0.1:8200' >> /etc/environment
@@ -56,8 +58,8 @@ runcmd:
   - systemctl status qemu-guest-agent || echo "Guest agent not running"
 # Ensure services are enabled
 bootcmd:
-  - [cloud-init-per, once, qemu-guest-agent-start, systemctl, start, \
-    qemu-guest-agent]
+  - [cloud-init-per, once, qemu-guest-agent-start, systemctl, start, qemu-guest-agent]
+
 # System configuration
 timezone: UTC
 locale: en_US.UTF-8
