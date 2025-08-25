@@ -26,6 +26,12 @@ variable "ci_ssh_key_test" {
   }
 }
 
+variable "proxmox_ssh_username" {
+  description = "SSH username for Proxmox host connections (required for file uploads)"
+  type        = string
+  default     = "root"
+}
+
 variable "test_vm_configs" {
   description = "Map of test VM configurations"
   type = map(object({
