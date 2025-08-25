@@ -64,8 +64,9 @@ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_infisical"></a> [infisical](#provider\_infisical) | 0.15.31 |
-| <a name="provider_scalr"></a> [scalr](#provider\_scalr) | 3.6.0 |
+| <a name="provider_infisical"></a> [infisical](#provider_infisical) | 0.15.31 |
+| <a name="provider_scalr"></a> [scalr](#provider_scalr) | 3.6.0 |
+
 ## Modules
 
 No modules.

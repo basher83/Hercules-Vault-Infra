@@ -1,15 +1,12 @@
+---
 formatter: "markdown table"
-
 version: ">= 0.16.0"
-
 header-from: main.tf
 footer-from: ""
-
 recursive:
   enabled: true
   path: .
   include-main: true
-
 sections:
   hide: []
   show:
@@ -21,7 +18,6 @@ sections:
     - inputs
     - outputs
     - footer
-
 content: |-
   {{ .Header }}
   {{ .Requirements }}
@@ -31,7 +27,6 @@ content: |-
   {{ .Inputs }}
   {{ .Outputs }}
   {{ .Footer }}
-
 output:
   file: README.md
   mode: inject
@@ -39,15 +34,12 @@ output:
     <!-- BEGIN_TF_DOCS -->
     {{ .Content }}
     <!-- END_TF_DOCS -->
-
 output-values:
   enabled: false
   from: ""
-
 sort:
   enabled: true
   by: name
-
 settings:
   anchor: true
   color: true

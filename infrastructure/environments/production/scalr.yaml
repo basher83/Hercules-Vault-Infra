@@ -1,3 +1,4 @@
+---
 version: v1
 workspaces:
   - name: vault-production
@@ -21,7 +22,8 @@ workspaces:
       post_plan:
         - name: "Security Scan"
           commands:
-            - "echo 'Security scan placeholder - integrate with your security tools'"
+            - "echo 'Security scan placeholder - integrate with your \
+              security tools'"
     tags:
       - vault
       - production

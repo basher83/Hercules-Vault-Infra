@@ -20,14 +20,28 @@ rg = "14.1.1"
 terraform = "1.13.0"
 terraform-docs = "0.20.0"
 tflint = "0.58.1"
+# Additional useful tools for infrastructure projects
+
+yamllint = "1.37.1"
+yamlfmt = "0.17.2"
+shellcheck = "0.11.0"
+markdownlint-cli2 = "0.14.0"
 
 [tasks.fmt]
 description = "Format all Terraform files recursively"
 run = "terraform fmt -recursive"
 
+[tasks.yaml-fmt]
+description = "Format YAML files"
+run = "mise exec -- yamlfmt ."
+
 [tasks.fmt-check]
 description = "Check formatting recursively (non-mutating, CI-friendly)"
 run = "terraform fmt -recursive -check -diff"
+
+[tasks.fmt-all]
+description = "Format all files (Terraform and YAML)"
+depends = ["fmt", "yaml-fmt"]
 
 
 [tasks.prod-validate]
@@ -42,7 +56,7 @@ run = "terraform init -backend=false -input=false >/dev/null && terraform valida
 
 [tasks.docs]
 description = "Generate Terraform documentation for all modules and environments"
-run = "./scripts/terraform/generate-docs.sh"
+run = "./scripts/generate-docs.sh"
 
 [tasks.docs-check]
 description = "Check if Terraform documentation is up-to-date"
@@ -75,3 +89,76 @@ run = "pre-commit run --all-files"
 [tasks.infisical-scan]
 description = "Scan repository for secrets and sensitive data"
 run = "infisical scan"
+
+[tasks.shellcheck]
+description = "Lint shell scripts"
+run = "find scripts -name '*.sh' -exec mise exec -- shellcheck {} +"
+
+[tasks.yaml-lint]
+description = "Lint YAML files"
+run = "mise exec -- yamllint ."
+
+[tasks.markdown-lint]
+description = "Lint Markdown files"
+run = "mise exec -- markdownlint-cli2 '**/*.md'"
+
+[tasks.lint-all]
+description = "Run all linting tasks"
+depends = [
+  "shellcheck",
+  "yaml-lint",
+  "markdown-lint",
+  "lint-prod",
+  "lint-scalr",
+]
+
+[tasks.validate-all]
+description = "Validate all Terraform configurations"
+depends = [
+  "prod-validate",
+  "scalr-validate",
+  "dev-validate",
+  "test-validate",
+  "staging-validate",
+]
+
+[tasks.full-check]
+description = "Complete validation including formatting, linting, docs, and security"
+depends = [
+  "fmt-all",
+  "validate-all",
+  "lint-all",
+  "docs-check",
+  "infisical-scan",
+]
+env = { TF_IN_AUTOMATION = "true", TF_INPUT = "false" }
+
+[tasks.setup]
+description = "Initial project setup - install hooks and generate docs"
+depends = ["hooks-install", "docs"]
+
+# Environment-specific convenience tasks
+[tasks.prod-plan]
+description = "Run terraform plan for production environment"
+dir = "infrastructure/environments/production"
+run = "terraform plan"
+
+[tasks.prod-apply]
+description = "Run terraform apply for production environment"
+dir = "infrastructure/environments/production"
+run = "terraform apply"
+
+[tasks.dev-validate]
+description = "Validate Terraform in development environment"
+dir = "infrastructure/environments/development"
+run = "terraform init -backend=false -input=false >/dev/null && terraform validate"
+
+[tasks.test-validate]
+description = "Validate Terraform in test environment"
+dir = "infrastructure/environments/test"
+run = "terraform init -backend=false -input=false >/dev/null && terraform validate"
+
+[tasks.staging-validate]
+description = "Validate Terraform in staging environment"
+dir = "infrastructure/environments/staging"
+run = "terraform init -backend=false -input=false >/dev/null && terraform validate"

@@ -14,7 +14,8 @@ resource "proxmox_virtual_environment_file" "vendor_data" {
   node_name    = var.vm_node_name
 
   source_raw {
-    data = <<-EOF
+    file_name = "hercules-vault-init.yaml"
+    data      = <<-EOF
 #cloud-config
 
 # Update system packages
@@ -63,8 +64,10 @@ runcmd:
     api_addr = "https://VAULT_API_ADDR:8200"
 
     listener "tcp" {
-      address = "0.0.0.0:8200"
-      tls_disable = "true"
+      # Bind to loopback by default for safety while TLS is disabled
+      # Change to 0.0.0.0 if remote access without TLS is required
+      address = "127.0.0.1:8200"
+      tls_disable = true
       # TODO: Enable TLS in production
     }
 
@@ -81,7 +84,7 @@ runcmd:
 
     # Logging
     log_level = "INFO"
-    log_file = "/opt/vault/logs/"
+    log_file = "/opt/vault/logs/vault.log"
     log_rotate_duration = "24h"
     log_rotate_max_files = 7
     VAULTEOF
@@ -94,9 +97,9 @@ runcmd:
   - systemctl daemon-reload
   - systemctl enable vault
 
-  # Create vault environment variables
-  - echo 'export VAULT_ADDR=http://localhost:8200' >> /etc/environment
-  - echo 'export VAULT_SKIP_VERIFY=true' >> /etc/environment
+  # Create vault environment variables (KEY=VALUE format for /etc/environment)
+  - echo 'VAULT_ADDR=http://localhost:8200' >> /etc/environment
+  - echo 'VAULT_SKIP_VERIFY=true' >> /etc/environment
 
 # Create helpful documentation
 write_files:
@@ -145,8 +148,6 @@ power_state:
   timeout: 30
   condition: true
     EOF
-
-    file_name = "hercules-vault-init.yaml"
   }
 }
 

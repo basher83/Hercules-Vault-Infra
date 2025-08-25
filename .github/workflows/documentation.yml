@@ -1,16 +1,12 @@
 name: Generate terraform docs
-
 on:
   - pull_request
-
 permissions:
   contents: write
   pull-requests: write
-
 concurrency:
   group: terraform-docs-${{ github.event.pull_request.number }}
   cancel-in-progress: true
-
 jobs:
   docs:
     if: ${{ !startsWith(github.actor, 'renovate') }}
@@ -20,7 +16,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-
       - name: Render terraform docs for infrastructure and modules
         uses: terraform-docs/gh-actions@v1.4.1
         with:
