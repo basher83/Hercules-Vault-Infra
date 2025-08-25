@@ -20,8 +20,9 @@ infrastructure consisting of:
 - **Network**: 1 NIC (1 Gbps sufficient)
 - **OS**: Ubuntu 22.04 LTS
 
-**Rationale**: Dev mode Vault with Transit engine has minimal resource
-requirements. Single NIC adequate as it only serves auto-unseal requests.
+**Rationale**: A minimal, single-node standard Vault running the Transit engine
+is sufficient for auto-unseal. Single NIC is adequate as it only serves
+auto-unseal requests. (Dev mode is not recommended for production.)
 
 ### Production Vault Nodes (3x)
 
