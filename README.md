@@ -1,6 +1,14 @@
+![Terraform](https://img.shields.io/badge/terraform-000000?style=for-the-badge&logo=terraform&logoColor=)
+![Vault](https://img.shields.io/badge/Vault-000000?style=for-the-badge&logo=vault&logoColor=)
+![Ansible](https://img.shields.io/badge/Ansible-000000?style=for-the-badge&logo=ansible&logoColor=white)
+
 # Hercules-Vault-Infra
 
 Infrastructure as Code for deploying a highly available HashiCorp Vault cluster to Proxmox production infrastructure using Terraform and Scalr.
+
+<img src="https://raw.githubusercontent.com/basher83/assets/main/space-gifs/undraw_taken_mshk.svg" width="200" alt="basher83 Aliens taken">
+
+</div>
 
 ## 🏗️ Architecture
 
