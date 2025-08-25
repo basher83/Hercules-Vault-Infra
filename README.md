@@ -190,3 +190,5 @@ From existing Nomad cluster infrastructure:
 ---
 
 **Workspace**: `production-vault` | **Backend**: Scalr Remote | **Provider**: Proxmox (bpg/proxmox)
+
+![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=basher83.Hercules-Vault-infra)
