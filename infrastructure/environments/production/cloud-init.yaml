@@ -50,7 +50,7 @@ runcmd:
     EOF
   - systemctl start nftables
   # Set up Vault environment (HTTP listener during initial setup)
-  - echo 'export VAULT_ADDR="http://127.0.0.1:8200"' >> /etc/environment
+  - echo 'VAULT_ADDR=http://127.0.0.1:8200' >> /etc/environment
   # Log installation status
   - vault version || echo "Vault installation may have failed"
   - systemctl status qemu-guest-agent || echo "Guest agent not running"
@@ -77,8 +77,9 @@ write_files:
       disable_mlock = true
 
       listener "tcp" {
-        address       = "0.0.0.0:8200"
-        tls_disable   = "true"  # Will be configured with proper TLS later
+        # Bind to loopback for security while TLS is disabled
+        address       = "127.0.0.1:8200"
+        tls_disable   = true  # Will be configured with proper TLS later
       }
 
       # Storage backend will be configured based on role:
