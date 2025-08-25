@@ -10,16 +10,16 @@ This directory contains the Terraform configuration for deploying a production-r
 
 When you run `terraform apply`, each VM automatically gets:
 
-✅ **System Updates** - Latest security patches  
-✅ **QEMU Guest Agent** - For proper Terraform destroy operations  
-✅ **DNS Configuration** - Reliable internet connectivity (8.8.8.8, 8.8.4.4)  
-✅ **HashiCorp Repository** - Official APT repository added  
-✅ **Vault Binary** - Latest Vault from HashiCorp (currently v1.20.2)  
-✅ **Vault Configuration** - Pre-configured `/etc/vault.d/vault.hcl`  
-✅ **Vault Directories** - Data and logs directories with proper permissions  
-✅ **Systemd Service** - Vault service configured and enabled  
-✅ **Environment Variables** - Vault CLI environment setup  
-✅ **Helper Scripts** - Documentation and cluster initialization helpers  
+✅ **System Updates** - Latest security patches
+✅ **QEMU Guest Agent** - For proper Terraform destroy operations
+✅ **DNS Configuration** - Reliable internet connectivity (8.8.8.8, 8.8.4.4)
+✅ **HashiCorp Repository** - Official APT repository added
+✅ **Vault Binary** - Latest Vault from HashiCorp (currently v1.20.2)
+✅ **Vault Configuration** - Pre-configured `/etc/vault.d/vault.hcl`
+✅ **Vault Directories** - Data and logs directories with proper permissions
+✅ **Systemd Service** - Vault service configured and enabled
+✅ **Environment Variables** - Vault CLI environment setup
+✅ **Helper Scripts** - Documentation and cluster initialization helpers
 
 ### The Magic Behind the Scenes
 
@@ -53,7 +53,7 @@ The production environment deploys a 4-VM Vault cluster:
 - **1x Master Vault** (vault-master): Auto-unseal provider with Transit engine
   - 2 vCPU, 4GB RAM, 40GB SSD
   - Provides auto-unseal service to production nodes
-  
+
 - **3x Production Vault Nodes** (vault-prod-1/2/3): Raft cluster members
   - 4 vCPU, 8GB RAM, 100GB SSD each
   - High availability configuration with Raft consensus
@@ -65,7 +65,7 @@ This environment is configured for Scalr VCS-driven workflow:
 - **Workspace**: `vault-production`
 - **Backend**: Remote state managed by Scalr
 - **Auto-apply**: Disabled (manual approval required)
-- **Trigger paths**: 
+- **Trigger paths**:
   - `infrastructure/environments/production/`
   - `infrastructure/modules/`
 

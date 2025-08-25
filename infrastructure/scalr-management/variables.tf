@@ -140,5 +140,3 @@ variable "infisical_path_scalr" {
   type        = string
   default     = "/scalr"
 }
-
-

@@ -12,5 +12,3 @@ resource "scalr_tag" "this" {
   name       = each.value
   account_id = var.scalr_account_id
 }
-
-

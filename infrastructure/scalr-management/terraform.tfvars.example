@@ -16,5 +16,3 @@ proxmox_doggos_provider_config_id = "pcfg-bbbbbbbbbb"
 # --- Workspace variables for test environment ---
 og_homelab_api_token        = "pve-user@pve!token-id=secret"
 test_ssh_public_key         = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... user@example"
-
-

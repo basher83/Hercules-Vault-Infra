@@ -2,7 +2,8 @@
 
 ## Overview
 
-This document outlines the system requirements for a dedicated 4-VM Vault infrastructure consisting of:
+This document outlines system requirements for a dedicated 4‑VM Vault
+infrastructure composed of:
 
 - 1 Master Vault (auto-unseal provider)
 - 3 Production Vault nodes (Raft cluster)
@@ -19,7 +20,9 @@ This document outlines the system requirements for a dedicated 4-VM Vault infras
 - **Network**: 1 NIC (1 Gbps sufficient)
 - **OS**: Ubuntu 22.04 LTS
 
-**Rationale**: Dev mode Vault with Transit engine has minimal resource requirements. Single NIC adequate as it only serves auto-unseal requests.
+**Rationale**: A minimal, single-node standard Vault running the Transit engine
+is sufficient for auto-unseal. Single NIC is adequate as it only serves
+auto-unseal requests. (Dev mode is not recommended for production.)
 
 ### Production Vault Nodes (3x)
 
@@ -31,7 +34,8 @@ This document outlines the system requirements for a dedicated 4-VM Vault infras
 - **Network**: 1 NIC per node (1 Gbps sufficient)
 - **OS**: Ubuntu 22.04 LTS
 
-**Rationale**: Production workloads require more resources for encryption/decryption operations, Raft consensus, and audit logging.
+**Rationale**: Production workloads require more resources for cryptographic
+operations, Raft consensus, and audit logging.
 
 ## Network Requirements
 
@@ -80,7 +84,7 @@ This document outlines the system requirements for a dedicated 4-VM Vault infras
 
 ## Storage Requirements
 
-### Master Vault
+### Master Vault (Auto-unseal Provider)
 
 - **40 GB total**:
   - 20 GB OS and applications
@@ -154,7 +158,7 @@ This document outlines the system requirements for a dedicated 4-VM Vault infras
 - Audit logging enabled
 - Backup encryption
 
-## Monitoring Requirements (Handeled with Netdata)
+## Monitoring Requirements (Handled with Netdata)
 
 ### Resource Monitoring
 
@@ -220,10 +224,12 @@ This document outlines the system requirements for a dedicated 4-VM Vault infras
 
 ## Summary
 
-| Component             | CPU         | RAM       | Storage    | Network         | IP Address      |
-| --------------------- | ----------- | --------- | ---------- | --------------- | --------------- |
-| Master Vault          | 2 vCPU      | 4 GB      | 40 GB SSD  | 1x 1Gb NIC      | 192.168.10.30   |
-| Production Vault (3x) | 4 vCPU      | 8 GB      | 100 GB SSD | 1x 1Gb NIC      | .31, .32, .33   |
-| **Total**             | **14 vCPU** | **28 GB** | **340 GB** | **4x 1Gb NICs** | **4 Static IPs**|
+| Component             | CPU         | RAM       | Storage    | Network            | IP Address       |
+| --------------------- | ----------- | --------- | ---------- | ------------------ | ---------------- |
+| Master Vault          | 2 vCPU      | 4 GB      | 40 GB SSD  | 1× 1 Gbps NIC      | 192.168.10.30    |
+| Production Vault (3×) | 4 vCPU      | 8 GB      | 100 GB SSD | 1× 1 Gbps NIC      | 192.168.10.31–33 |
+| **Total**             | **14 vCPU** | **28 GB** | **340 GB** | **4× 1 Gbps NICs** | **4 Static IPs** |
 
-This configuration provides a robust, scalable foundation for HashiCorp Vault in a production environment with enterprise-grade reliability and security.
+This configuration provides a robust, scalable foundation for HashiCorp
+Vault in a production environment with enterprise-grade reliability and
+security.

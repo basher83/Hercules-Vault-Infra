@@ -26,6 +26,12 @@ variable "ci_ssh_key_test" {
   }
 }
 
+variable "proxmox_ssh_username" {
+  description = "SSH username for Proxmox host connections (required for file uploads)"
+  type        = string
+  default     = "root"
+}
+
 variable "test_vm_configs" {
   description = "Map of test VM configurations"
   type = map(object({
@@ -61,5 +67,3 @@ variable "test_vm_configs" {
     error_message = "Each test VM 'name' must match ^[a-z0-9-]{1,63}$ (lowercase, digits, hyphens only, max 63 chars)."
   }
 }
-
-

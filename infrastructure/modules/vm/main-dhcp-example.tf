@@ -21,7 +21,7 @@ initialization {
     }
   }
 
-  # For static IP configuration  
+  # For static IP configuration
   dynamic "ip_config" {
     for_each = !var.use_dhcp ? [1] : []
     content {
