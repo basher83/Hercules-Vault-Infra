@@ -197,21 +197,15 @@ clusters**. Key achievements:
 | Aspect | Before | After |
 |--------|--------|-------|
 | **VM Creation** | Manual template cloning | Automated via Terraform |
-| **Vault Installation** | Manual SSH + commands | Automatic via
-cloud-init |
+| **Vault Installation** | Manual SSH + commands | Automatic via cloud-init |
 | **Configuration** | Manual file editing | Pre-configured templates |
 | **DNS Setup** | Manual resolv.conf editing | Automatic via Terraform |
-| **Service Setup** | Manual systemd configuration | Automatic via
-cloud-init |
+| **Service Setup** | Manual systemd configuration | Automatic via cloud-init |
 | **Documentation** | Basic setup notes | Comprehensive guides |
 | **Troubleshooting** | Trial and error | Documented solutions |
 | **Deployment Time** | ~30+ minutes manual work | ~5 minutes automated |
 | **Consistency** | Variable across deployments | Identical every time |
-| **Recovery Time** | Manual rebuild process | Single Terraform
-command |
-
----
-
+| **Recovery Time** | Manual rebuild process | Single Terraform command |
 ## [1.0.0] - 2025-08-23 - Initial Infrastructure
 
 
