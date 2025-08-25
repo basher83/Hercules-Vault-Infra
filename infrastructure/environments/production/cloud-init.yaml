@@ -60,6 +60,14 @@ runcmd:
 bootcmd:
   - [cloud-init-per, once, qemu-guest-agent-start, systemctl, start, qemu-guest-agent]
 
+# Create ansible user for automation
+users:
+  - name: ansible
+    groups: [adm, cdrom, dip, plugdev, lxd, sudo]
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFa5HX4EzWRRY+YhC979KqYtBPLvTOXtriwzql1uTthp
 # System configuration
 timezone: UTC
 locale: en_US.UTF-8
