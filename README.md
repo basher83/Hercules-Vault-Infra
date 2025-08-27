@@ -1,6 +1,7 @@
 ![Terraform](https://img.shields.io/badge/terraform-000000?style=for-the-badge&logo=terraform&logoColor=)
 ![Vault](https://img.shields.io/badge/Vault-000000?style=for-the-badge&logo=vault&logoColor=)
 ![Ansible](https://img.shields.io/badge/Ansible-000000?style=for-the-badge&logo=ansible&logoColor=white)
+![Proxmox](https://img.shields.io/badge/Proxmox-000000?style=for-the-badge&logo=proxmox&logoColor=)
 
 # Hercules-Vault-Infra
 
