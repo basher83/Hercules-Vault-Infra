@@ -1,0 +1,25 @@
+name: Terraform Lint & Validate
+
+on:
+    push:
+    pull_request:
+        branches:
+            - main
+    workflow_dispatch:
+
+jobs:
+    terraform-lint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+            - name: Set up Terraform
+              uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+            - name: Terraform Format Check
+              run: terraform fmt -check -recursive
+              working-directory: ./infrastructure
+            - name: Terraform Init
+              run: terraform init -backend=false
+              working-directory: ./infrastructure
+            - name: Terraform Validate
+              run: terraform validate
+              working-directory: ./infrastructure
