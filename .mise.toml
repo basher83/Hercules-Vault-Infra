@@ -14,7 +14,7 @@ truncate = true
 cosign = "3.0.3"
 eza = "0.23.0"
 fd = "10.2.0"
-pre-commit = "4.5.0"
+prek = "0.2.20"
 rg = "14.1.1"
 # Pin to Terraform >=1.10 to support Ephemeral Resources
 terraform = "1.14.2"
@@ -29,14 +29,16 @@ markdownlint-cli2 = "0.20.0"
 
 [tasks.fmt]
 description = "Format all Terraform files recursively"
+dir = "infrastructure"
 run = "terraform fmt -recursive"
 
 [tasks.yaml-fmt]
 description = "Format YAML files"
-run = "mise exec -- yamlfmt ."
+run = "yamlfmt ."
 
 [tasks.fmt-check]
 description = "Check formatting recursively (non-mutating, CI-friendly)"
+dir = "infrastructure"
 run = "terraform fmt -recursive -check -diff"
 
 [tasks.fmt-all]
@@ -80,11 +82,11 @@ env = { TF_IN_AUTOMATION = "true", TF_INPUT = "false" }
 
 [tasks.hooks-install]
 description = "Install pre-commit and infisical hooks"
-run = "pre-commit install && infisical scan install --pre-commit-hook"
+run = "prek install && infisical scan install --pre-commit-hook"
 
 [tasks.hooks-run]
 description = "Run pre-commit hooks"
-run = "pre-commit run --all-files"
+run = "prek run --all-files"
 
 [tasks.infisical-scan]
 description = "Scan repository for secrets and sensitive data"
@@ -92,15 +94,15 @@ run = "infisical scan"
 
 [tasks.shellcheck]
 description = "Lint shell scripts"
-run = "find scripts -name '*.sh' -exec mise exec -- shellcheck {} +"
+run = "find scripts -name '*.sh' -exec shellcheck {} +"
 
 [tasks.yaml-lint]
 description = "Lint YAML files"
-run = "mise exec -- yamllint ."
+run = "yamllint ."
 
 [tasks.markdown-lint]
 description = "Lint Markdown files"
-run = "mise exec -- markdownlint-cli2 '**/*.md'"
+run = "markdownlint-cli2 '**/*.md'"
 
 [tasks.lint-all]
 description = "Run all linting tasks"

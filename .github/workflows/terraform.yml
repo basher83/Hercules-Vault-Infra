@@ -17,9 +17,13 @@ jobs:
             - name: Terraform Format Check
               run: terraform fmt -check -recursive
               working-directory: ./infrastructure
-            - name: Terraform Init
-              run: terraform init -backend=false
-              working-directory: ./infrastructure
-            - name: Terraform Validate
-              run: terraform validate
-              working-directory: ./infrastructure
+            - name: Validate Production Environment
+              run: |
+                  terraform init -backend=false -input=false
+                  terraform validate
+              working-directory: ./infrastructure/environments/production
+            - name: Validate Scalr Management
+              run: |
+                  terraform init -backend=false -input=false
+                  terraform validate
+              working-directory: ./infrastructure/scalr-management
