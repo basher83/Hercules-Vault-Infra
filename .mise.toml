@@ -13,11 +13,11 @@ truncate = true
 [tools]
 cosign = "3.0.6"
 eza = "0.23.0"
-fd = "10.2.0"
-prek = "0.2.20"
+fd = "10.4.2"
+prek = "0.3.11"
 rg = "14.1.1"
 # Pin to Terraform >=1.10 to support Ephemeral Resources
-terraform = "1.14.9"
+terraform = "1.15.0"
 terraform-docs = "0.22.0"
 tflint = "0.62.0"
 # Additional useful tools for infrastructure projects
